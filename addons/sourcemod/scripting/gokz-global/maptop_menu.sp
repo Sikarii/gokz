@@ -149,13 +149,13 @@ static void MapTopMenuAddItems(int client, Menu menu)
 	}
 }
 
-public int DisplayMapTopSubmenuCallback(JSON_Object top, GlobalAPIRequestData request, DataPack dp)
+public int DisplayMapTopSubmenuCallback(JSON_Array top, GlobalAPIRequestData request, DataPack dp)
 {
 	dp.Reset();
 	int client = GetClientOfUserId(dp.ReadCell());
 	int timeType = dp.ReadCell();
 	delete dp;
-	
+
 	if (request.Failure)
 	{
 		LogError("Failed to get top records with Global API.");
@@ -213,14 +213,14 @@ public int DisplayMapTopSubmenuCallback(JSON_Object top, GlobalAPIRequestData re
 }
 
 // Returns number of record times added to the menu
-static int MapTopSubmenuAddItems(Menu menu, JSON_Object records, int timeType)
+static int MapTopSubmenuAddItems(Menu menu, JSON_Array records, int timeType)
 {
 	char playerName[MAX_NAME_LENGTH];
 	char display[128];
 	
 	for (int i = 0; i < records.Length; i++)
 	{
-		APIRecord record = view_as<APIRecord>(records.GetObjectIndexed(i));
+		APIRecord record = view_as<APIRecord>(records.GetObject(i));
 		
 		record.GetPlayerName(playerName, sizeof(playerName));
 		

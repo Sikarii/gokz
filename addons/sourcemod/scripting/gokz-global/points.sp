@@ -99,7 +99,7 @@ static void GetPlayerRanks(int client, int mode, int timeType, int mapID = DEFAU
 							 modes, 1, { 128 }, 1, timeType == TimeType_Nub ? DEFAULT_BOOL : false, _, _);
 }
 
-static void UpdatePointsCallback(JSON_Object ranks, GlobalAPIRequestData request, DataPack dp)
+static void UpdatePointsCallback(JSON_Array ranks, GlobalAPIRequestData request, DataPack dp)
 {
 	dp.Reset();
 	int client = GetClientOfUserId(dp.ReadCell());
@@ -114,7 +114,7 @@ static void UpdatePointsCallback(JSON_Object ranks, GlobalAPIRequestData request
 	{
 		return;
 	}
-	
+
 	int points, totalFinishes;
 	if (request.Failure || !ranks.IsArray || ranks.Length == 0)
 	{
@@ -123,7 +123,7 @@ static void UpdatePointsCallback(JSON_Object ranks, GlobalAPIRequestData request
 	}
 	else
 	{
-		APIPlayerRank rank = view_as<APIPlayerRank>(ranks.GetObjectIndexed(0));
+		APIPlayerRank rank = view_as<APIPlayerRank>(ranks.GetObject(0));
 		// points = timeType == TimeType_Nub ? rank.PointsOverall : rank.Points;
 		points = points == -1 ? 0 : rank.Points;
 		totalFinishes = rank.Finishes == -1 ? 0 : rank.Finishes;

@@ -47,7 +47,7 @@ void PrintRecords(int client, const char[] map, int course, int mode, const char
 	printRecordsMode[client] = mode;
 }
 
-public int PrintRecordsCallback(JSON_Object records, GlobalAPIRequestData request, DataPack dp)
+public int PrintRecordsCallback(JSON_Array records, GlobalAPIRequestData request, DataPack dp)
 {
 	dp.Reset();
 	int client = GetClientOfUserId(dp.ReadCell());
@@ -71,7 +71,7 @@ public int PrintRecordsCallback(JSON_Object records, GlobalAPIRequestData reques
 	}
 	else
 	{
-		APIRecord record = view_as<APIRecord>(records.GetObjectIndexed(0));
+		APIRecord record = view_as<APIRecord>(records.GetObject(0));
 		printRecordsTimeExists[client][timeType] = true;
 		printRecordsTimes[client][timeType] = record.Time;
 		record.GetPlayerName(printRecordsPlayerNames[client][timeType], sizeof(printRecordsPlayerNames[][]));

@@ -595,7 +595,7 @@ public int GetAuthStatusCallback(JSON_Object auth_json, GlobalAPIRequestData req
 	gB_APIKeyCheck = auth.IsValid;
 }
 
-public int GetModeInfoCallback(JSON_Object modes, GlobalAPIRequestData request)
+public int GetModeInfoCallback(JSON_Array modes, GlobalAPIRequestData request)
 {
 	if (request.Failure)
 	{
@@ -611,7 +611,7 @@ public int GetModeInfoCallback(JSON_Object modes, GlobalAPIRequestData request)
 	
 	for (int i = 0; i < modes.Length; i++)
 	{
-		APIMode mode = view_as<APIMode>(modes.GetObjectIndexed(i));
+		APIMode mode = view_as<APIMode>(modes.GetObject(i));
 		int mode_id = GOKZ_GL_FromGlobalMode(view_as<GlobalMode>(mode.Id));
 		if (mode_id == -1)
 		{
@@ -665,7 +665,7 @@ void CheckClientGlobalBan(int client)
 	GlobalAPI_GetPlayerBySteamId(CheckClientGlobalBan_Callback, client, steamid);
 }
 
-public void CheckClientGlobalBan_Callback(JSON_Object player_json, GlobalAPIRequestData request, int client)
+public void CheckClientGlobalBan_Callback(JSON_Array player_json, GlobalAPIRequestData request, int client)
 {
 	if (!IsValidClient(client))
 	{
@@ -687,7 +687,7 @@ public void CheckClientGlobalBan_Callback(JSON_Object player_json, GlobalAPIRequ
 		return;
 	}
 	
-	APIPlayer player = view_as<APIPlayer>(player_json.GetObjectIndexed(0));
+	APIPlayer player = view_as<APIPlayer>(player_json.GetObject(0));
 	player.GetSteamId(response_steamid, sizeof(response_steamid));
 	if (!StrEqual(client_steamid, response_steamid))
 	{
