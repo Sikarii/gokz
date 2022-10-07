@@ -22,7 +22,7 @@ methodmap APIIterable < JSON_Array
     * @param hItems     JSON_Object array handle
     * @return           A new APIIterable handle
     */
-    public APIIterable(JSON_Array hItems)
+    public APIIterable(JSON_Object hItems)
     {
         if (hItems.HasKey("result"))
         {
